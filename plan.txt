@@ -1,0 +1,19 @@
+1 Pobranie danych
+
+1.1 pobieranie danych
+
+zrobic zapytanie od serwisu o dane, testowo na miesiac wstecz, 
+dodac zmiane przedzialu czasu
+upewnic sie ze sa w dobrym formacie
+dodac do bazy sql
+
+1.2
+
+stworzenie bazy sql z odpowiednie sformatowanymi liniami
+
+dodawanie recordow nowych
+sprawdzanie najnowszego i dodanie prakujacych rekordow do tego momentu
+dodawanie recordow po najstarszym
+
+2
+3
