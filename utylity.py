@@ -25,3 +25,8 @@ def oldestRecord(table,ticker):
                  old = cursor.fetchall()
                  conn.commit()
                  return old[0]
+def clearNewestRecords(table,ticker,count):
+         with sqlite3.connect("StockMarket.db") as conn:
+                   cursor = conn.cursor()
+                   cursor.execute(f"DELETE FROM {table} WHERE rowid IN (SELECT rowid FROM {table} WHERE ticker = '{ticker}' ORDER BY date DESC LIMIT {count})")
+                   conn.commit()

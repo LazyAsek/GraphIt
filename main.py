@@ -11,5 +11,5 @@ curTime = 5
 ticker = "XTB.WA"
 table= "stock_prices"
 data = yf.Ticker(ticker)
-db_menager.addStock(table,ticker)
+db_menager.updateStock(table,ticker)
 
