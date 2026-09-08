@@ -17,14 +17,14 @@ def newestRecord(table,ticker):
                  cursor.execute(f"SELECT * FROM {table} WHERE ticker='{ticker}' ORDER BY date DESC LIMIT 1")
                  new = cursor.fetchall()
                  conn.commit()
-                 return new[0]
+                 return new[0] if new else 0
 def oldestRecord(table,ticker):
      with sqlite3.connect("StockMarket.db") as conn:
                  cursor = conn.cursor()
                  cursor.execute(f"SELECT * FROM {table} WHERE ticker='{ticker}' ORDER BY date ASC LIMIT 1")
                  old = cursor.fetchall()
                  conn.commit()
-                 return old[0]
+                 return old[0]  if old else 0
 def clearNewestRecords(table,ticker,count):
          with sqlite3.connect("StockMarket.db") as conn:
                    cursor = conn.cursor()

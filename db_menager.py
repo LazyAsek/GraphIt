@@ -34,7 +34,7 @@ def addStock(table,ticker,time=30):
             for k,v in dictRecords.items():
                     date = k.date()
                     values = f"'{ticker}','{date}',{v['Open']},{v['High']},{v['Low']},{v['Close']},{v['Volume']},{v['Dividends']}"
-                    cursor.execute(f"INSERT INTO {table} VALUES({values})")
+                    cursor.execute(f"INSERT OR REPLACE INTO {table} VALUES({values})")
                     
             conn.commit()
 
@@ -46,6 +46,7 @@ def updateStock(table,ticker):
         sinceUpdate = (datetime.date.today() - current).days
         if sinceUpdate == 0:
             print("Stock is uptodate")
+            return
         update=1
         for k in TIME.keys():
                 update = k
@@ -66,7 +67,7 @@ def updateStock(table,ticker):
                             
             conn.commit()
 
-def getData(table,ticker):
+def getData(table,ticker,date_start,date_end):
     with sqlite3.connect("StockMarket.db") as conn:
         cursor = conn.cursor()
         query =f"""

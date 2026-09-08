@@ -19,5 +19,14 @@ dodawanie recordow po najstarszym
 
 wyszukiwarka tickerow
 i sprawdzanie ich poprawnosci
-2
-3
+
+1.4
+pokaznie grafu w przegldarce
+
+1.5
+poczatek gui 
+
+stworzenie okienka odzielnego z
+
+ticker finderem
+przyciskiem do pojawienia grafukontrole zakladek

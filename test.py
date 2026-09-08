@@ -1,7 +1,6 @@
 import utylity
+import ticker_menager
 
-
-ticker = "XTB.WA"
+from PIL import Image
 table= "stock_prices"
-
-utylity.clearNewestRecords(table,ticker,4)
+utylity.clearTableByTicker(table,"TSLA")

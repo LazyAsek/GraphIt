@@ -1,32 +1,46 @@
-import yfinance as yf
-import pandas as pd
-import sqlite3
-import utylity
-import db_menager
-import ticker_menager
-import plotly
-import plotly.graph_objects as go
+import subprocess
+import sys
+import time
+import webview
+import streamlit as st
 
-#choose stock by ticker
-ticker = "PKN.WA"
-table= "stock_prices"
+def start_app():
 
-data = yf.Ticker(ticker)
-db_menager.addStock(table,ticker)
-db_menager.updateStock(table,ticker)
-dataSet = db_menager.getData(table,ticker)
-print(dataSet)
-fig = go.Figure(
-    data =[
-        go.Candlestick(x=dataSet["date"],open=dataSet["open"],high=dataSet["high"],low=dataSet["low"],close=dataSet["close"],name=ticker)
-    ]
-)
+    process = subprocess.Popen(
+[
+            sys.executable,
+            "-m",
+            "streamlit",
+            "run",
+            "app.py",
+            "--server.port=8501",
+            "--server.headless=true",
+            "--theme.base=dark",          
+            "--theme.backgroundColor=#121212",
+            "--theme.secondaryBackgroundColor=#1e1e1e"
+        ]
+    )
 
-fig.update_layout(
-    title = f"Graph of {ticker}",
-    yaxis_title="Price (PLN)",
-    xaxis_title="Date",
-    template="plotly_dark",  # Ciemny motyw (opcjonalnie: 'plotly_white')
-    xaxis_rangeslider_visible=False,
-)
-fig.show()
+    time.sleep(2)
+
+
+    window = webview.create_window(
+        title="GraphIt",
+        url="http://localhost:8501",
+        width=1200,
+        height=800,
+        resizable=True,
+        background_color='#121212',
+    )
+
+    webview.start(
+        icon='graphit.ico',
+        gui="edgechromium",
+        debug=False,
+        )
+
+    process.kill()
+
+
+if __name__ == "__main__":
+    start_app()
