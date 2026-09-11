@@ -4,14 +4,12 @@ import sqlite3
 import utylity
 import datetime
 
-TIME= {1 : "1d", 5 :"5d", 30 :"1mo", 90 :"3mo", 180 :"6mo", 365 :"1y", 730 :"2y", 1825 :"5y", 3650 :"10y", 0 :"max"}
-curTime = 30
 
 def addStock(table,ticker,time=30):
 
     data = yf.Ticker(ticker)
     #get history / base 10 days
-    records = data.history(period=f'{TIME[time]}')
+    records = data.history(period=utylity.getTimeStamp(time))
 
     #format to sql table
     """
@@ -47,14 +45,13 @@ def updateStock(table,ticker):
         if sinceUpdate == 0:
             print("Stock is uptodate")
             return
-        update=1
-        for k in TIME.keys():
-                update = k
-                if sinceUpdate < k:
-                    break
+        
+        update=utylity.getTimeStamp(sinceUpdate)
+
         newestDate = datetime.date.strptime(utylity.newestRecord(table,ticker)[1],"%Y-%m-%d")
+
         data = yf.Ticker(ticker)
-        records = data.history(period=f'{TIME[update]}')
+        records = data.history(period=update)
         dictRecords = records.to_dict(orient='index', into=dict)
         with sqlite3.connect("StockMarket.db") as conn:
             cursor = conn.cursor()
@@ -72,8 +69,8 @@ def getData(table,ticker,date_start,date_end):
         cursor = conn.cursor()
         query =f"""
             SELECT date, open, high, low, close, volume 
-            FROM stock_prices 
-            WHERE ticker = '{ticker}' 
+            FROM {table} 
+            WHERE ticker = '{ticker}' AND date BETWEEN '{date_start}' AND '{date_end}'
             ORDER BY date ASC
         """
         data = pd.read_sql(query,conn)

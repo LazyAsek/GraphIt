@@ -41,6 +41,8 @@ st.sidebar.markdown("---")
 
 if tickerChosen:
     st.sidebar.success(f"Current Ticker: {tickerChosen}")
+    if utylity.newestRecord(table,tickerChosen) != 0:
+        st.sidebar.info(f"Oldest record fetched: { datetime.date.strptime(utylity.oldestRecord(table,tickerChosen)[1],"%Y-%m-%d")}")
     st.sidebar.subheader("📅 Date Range")
 
  
@@ -67,6 +69,7 @@ if tickerChosen:
     if show_chart:
         data = yf.Ticker(tickerChosen)
         db_menager.updateStock(table,tickerChosen)
+        print(start_date)
         dataSet = db_menager.getData(table,tickerChosen,start_date,end_date)
 
 
@@ -78,7 +81,7 @@ if tickerChosen:
 
         fig.update_layout(
             title = f"Graph of {tickerChosen}",
-            yaxis_title="Price (PLN)",
+            yaxis_title="Price ",
             xaxis_title="Date",
             template="plotly_dark",  # Ciemny motyw (opcjonalnie: 'plotly_white')
             xaxis_rangeslider_visible=False,
